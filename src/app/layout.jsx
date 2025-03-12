@@ -1,5 +1,6 @@
 import vazirFont from "@/constants/localFont";
 import "./globals.css";
+import Header from "./Header";
 
 export const metadata = {
   title: "Next Shop Panel",
@@ -8,8 +9,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fa">
-      <body className={`${vazirFont.variable} font-sans`}>{children}</body>
+    <html lang="fa" dir="rtl">
+      <body className={`${vazirFont.variable} font-sans min-h-screen `}>
+        <Header />
+        <div className="container xl:max-w-screen-xl mx-auto">{children}</div>
+      </body>
     </html>
   );
 }

@@ -12,8 +12,12 @@
   }
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  padding: 0;
+  margin: 0;
   font-family: var(--font-vazir);
+  min-height: 100vh;
+  user-select: none;
+  background-color: var(--background-app-rgb);
 }
