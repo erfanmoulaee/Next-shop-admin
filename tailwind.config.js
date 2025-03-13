@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-
-// import { fontFamily } from "tailwindcss/defaultTheme";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 function withOpacity(variableName) {
   return ({ opacityValue }) => {
@@ -10,7 +9,8 @@ function withOpacity(variableName) {
     return `rgb(var(${variableName}))`;
   };
 }
-export default {
+
+module.exports = {
   content: ["./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/common/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
@@ -36,19 +36,19 @@ export default {
           300: withOpacity("--color-secondary-300"),
           200: withOpacity("--color-secondary-200"),
           100: withOpacity("--color-secondary-100"),
-          50: withOpacity("--color-secondary-50"),
-          0: withOpacity("--color-secondary-0"),
         },
         success: withOpacity("--color-success"),
         warning: withOpacity("--color-warning"),
         error: withOpacity("--color-error"),
       },
-      container: {
-        center: true,
-        padding: "1rem",
-      },
       fontFamily: {
         sans: ["var(--font-vazir)", ...fontFamily.sans],
+      },
+      container: {
+        center: true,
+      },
+      boxShadow: {
+        "input-focus": "0 12px 24px -8px rgb(var(--color-primary-300))",
       },
     },
   },

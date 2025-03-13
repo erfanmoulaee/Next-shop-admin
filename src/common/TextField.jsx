@@ -4,7 +4,7 @@ function TextField({ label, name, value, onChange }) {
       <label htmlFor="" className="block">
         {label}
       </label>
-      <input type="text" name={name} id={name} value={value} onChange={onChange} className="bg-gray-50 p-2 rounded-sm" />
+      <input type="text" name={name} id={name} value={value} onChange={onChange} className="textField__input" />
     </div>
   );
 }
