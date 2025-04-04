@@ -14,7 +14,7 @@ function AuthPage() {
   const [step, setStep] = useState(2);
   const [time, setTime] = useState(RESENT_TIME);
   const {
-    data,
+    data: OtpResponse,
     isPending,
     error,
     mutateAsync: mutategetOtp,
@@ -35,6 +35,9 @@ function AuthPage() {
     try {
       const data = await mutategetOtp({ phoneNumber });
       toast.success(data.message);
+      setStep(2);
+      setTime(RESENT_TIME);
+      setOtp("");
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -46,8 +49,6 @@ function AuthPage() {
     try {
       const data = await mutateCheckOtp({ phoneNumber, otp });
       toast.success(data.message);
-      setStep(2);
-      setTime(RESENT_TIME);
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -65,7 +66,7 @@ function AuthPage() {
       case 1:
         return <SendOtpForm phoneNumber={phoneNumber} onchange={phoneNumberHandler} onSubmit={sendOTPHandler} isLoading={isPending} />;
       case 2:
-        return <CheckOTPForm onResendOtp={sendOTPHandler} time={time} onBack={() => setStep((s) => s - 1)} onSubmit={CheckOtpHandler} otp={otp} setOtp={setOtp} />;
+        return <CheckOTPForm OtpResponse={OtpResponse} onResendOtp={sendOTPHandler} time={time} onBack={() => setStep((s) => s - 1)} onSubmit={CheckOtpHandler} otp={otp} setOtp={setOtp} />;
       default:
         return null;
     }

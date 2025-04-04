@@ -1,11 +1,18 @@
 import React from "react";
 import OTPInput from "react-otp-input";
 
-function CheckOTPForm({ onSubmit, otp, setOtp, onBack, time, onResendOtp }) {
+function CheckOTPForm({ onSubmit, otp, setOtp, onBack, time, onResendOtp, OtpResponse }) {
   return (
     <div>
-      <button onClick={onBack}>برگشت</button>
-      <div>{time > 0 ? <p>{time} ثانیه تا ارسال مجدد کد</p> : <button onClick={onResendOtp}>ارسال مجدد کد </button>}</div>
+      <button onClick={onBack} className="mb-4">
+        برگشت
+      </button>
+      {OtpResponse && (
+        <p>
+          {OtpResponse.message} <button onClick={onBack}>ویرایش</button>
+        </p>
+      )}
+      <div className="mb-4">{time > 0 ? <p>{time} ثانیه تا ارسال مجدد کد</p> : <button onClick={onResendOtp}>ارسال مجدد کد </button>}</div>
       <form className="space-y-10" onSubmit={onSubmit}>
         <p>کد تائید را وارد کنید </p>
         <OTPInput
@@ -14,6 +21,7 @@ function CheckOTPForm({ onSubmit, otp, setOtp, onBack, time, onResendOtp }) {
           numInputs={6}
           renderSeparator={<span>-</span>}
           renderInput={(props) => <input {...props} renderSeparator={<span>-</span>} />}
+          containerStyle="flex flex-row-reverse gap-x-2 justify-center"
           inputStyle={{
             width: "2.5rem",
             padding: "0.5rem 0.2rem",
