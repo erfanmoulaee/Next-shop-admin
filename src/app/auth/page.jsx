@@ -5,14 +5,16 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { checkOtp, getOtp } from "@/services/authService";
 import CheckOTPForm from "./CheckOTPForm";
+import { useRouter } from "next/navigation";
 
 const RESENT_TIME = 90;
 
 function AuthPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [time, setTime] = useState(RESENT_TIME);
+  const router = useRouter();
   const {
     data: OtpResponse,
     isPending,
@@ -21,7 +23,7 @@ function AuthPage() {
   } = useMutation({
     mutationFn: getOtp,
   });
-  const { mutateAsync: mutateCheckOtp } = useMutation({
+  const { mutateAsync: mutateCheckOtp, isPending: isCheckingOtp } = useMutation({
     mutationFn: checkOtp,
   });
 
@@ -47,8 +49,13 @@ function AuthPage() {
     e.preventDefault();
     //call checkOTP API
     try {
-      const data = await mutateCheckOtp({ phoneNumber, otp });
-      toast.success(data.message);
+      const { message, user } = await mutateCheckOtp({ phoneNumber, otp });
+      toast.success(message);
+      if (user.isActive) {
+        router.push("/");
+      } else {
+        router.push("/complete-profile");
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -66,7 +73,18 @@ function AuthPage() {
       case 1:
         return <SendOtpForm phoneNumber={phoneNumber} onchange={phoneNumberHandler} onSubmit={sendOTPHandler} isLoading={isPending} />;
       case 2:
-        return <CheckOTPForm OtpResponse={OtpResponse} onResendOtp={sendOTPHandler} time={time} onBack={() => setStep((s) => s - 1)} onSubmit={CheckOtpHandler} otp={otp} setOtp={setOtp} />;
+        return (
+          <CheckOTPForm
+            isCheckingOtp={isCheckingOtp}
+            OtpResponse={OtpResponse}
+            onResendOtp={sendOTPHandler}
+            time={time}
+            onBack={() => setStep((s) => s - 1)}
+            onSubmit={CheckOtpHandler}
+            otp={otp}
+            setOtp={setOtp}
+          />
+        );
       default:
         return null;
     }
