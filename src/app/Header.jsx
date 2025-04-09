@@ -23,10 +23,21 @@ function Header() {
             </Link>
           </li>
           <li>
+            <Link className="block py-2" href="/profile">
+              پنل کاربر
+            </Link>
+          </li>
+          <li>
+            <Link className="block py-2" href="/admin">
+              پنل ادمین
+            </Link>
+          </li>
+          <li>
             <Link className="block py-2" href="/products">
               سبد خرید {cart ? cart.payDetail.productIds.length : 0}
             </Link>
           </li>
+
           {user ? (
             <span>{data.user.name}</span>
           ) : (
