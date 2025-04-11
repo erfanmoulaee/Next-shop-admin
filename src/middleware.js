@@ -1,26 +1,20 @@
 import { NextResponse } from "next/server";
+import middlewareAuth from "./utils/middlewareAuth";
 
 export async function middleware(req) {
   const url = req.url;
   const pathname = req.nextUrl.pathname;
 
   if (pathname.startsWith("/profile")) {
-    let strCookies = "";
-    req.cookies.getAll().forEach((item) => {
-      strCookies += `${item?.name}=${item?.value}; `;
-    });
-    const { data } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Cookies: strCookies,
-      },
-    }).then((res) => res.json);
-    const { user } = data || {};
-    if (!user) return NextResponse.redirect(new URL("/auth", req.url));
+    // console.log(req.cookies.get("accessToken"));
+    const user = await middlewareAuth(req);
+
+    if (!user) return NextResponse.redirect(new URL("/auth", url));
   }
   if (pathname.startsWith("/admin")) {
-    console.log("this is admin request");
+    const user = await middlewareAuth(req);
+    if (!user) return NextResponse.redirect(new URL("/auth", url));
+    if (user && user.role !== "ADMIN") return NextResponse.redirect(new URL("/", req.url));
   }
 }
 

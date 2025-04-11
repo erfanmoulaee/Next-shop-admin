@@ -7,7 +7,6 @@ import Link from "next/link";
 function Header() {
   const { data, error, isLoading } = useGetUser();
   const { user, cart } = data || {};
-  console.log({ data, error, isLoading });
   return (
     <header className={`shadow-md mb-10 sticky top-0 transition-all duration-200 ${isLoading ? "blur-sm opacity-70" : "opacity-100 blur-0"}`}>
       <nav>
