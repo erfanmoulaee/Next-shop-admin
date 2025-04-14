@@ -9,7 +9,7 @@ function SideBar() {
           <Link href="/">صفحه اصلی</Link>
         </li>
         <li>
-          <Link href="/">اطلاعات کاربری</Link>
+          <Link href="/profile/me">اطلاعات کاربری</Link>
         </li>
       </ul>
     </div>
