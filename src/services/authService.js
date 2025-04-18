@@ -19,3 +19,7 @@ export function getUserProfile() {
 export function updateProfile(data) {
   return http.patch("/user/update", data).then(({ data }) => data.data);
 }
+
+export function logOut() {
+  return http.post("/user/logout");
+}
