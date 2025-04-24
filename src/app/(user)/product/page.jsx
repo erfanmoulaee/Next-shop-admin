@@ -2,9 +2,10 @@ import { getCategories } from "@/services/getCategories";
 import { getProducts } from "@/services/getProducts";
 import React from "react";
 import CategorySidebar from "./CategorySidebar";
+import queryString from "query-string";
 
-async function Products() {
-  const { products } = await getProducts();
+async function Products({ searchParams }) {
+  const { products } = await getProducts(queryString.stringify(searchParams));
   const { categories } = await getCategories();
   return (
     <div>
