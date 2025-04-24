@@ -6,8 +6,14 @@ import queryString from "query-string";
 export const dynamic = "force-dynamic";
 
 async function Products({ searchParams }) {
-  const { products } = await getProducts(queryString.stringify(searchParams));
-  const { categories } = await getCategories();
+  // const { products } = await getProducts(queryString.stringify(searchParams));
+  // const { categories } = await getCategories();
+
+  const productsPromise = getProducts(queryString.stringify(searchParams));
+  const categoryPromise = getCategories();
+
+  const [{ products }, { categories }] = await Promise.all([productsPromise, categoryPromise]);
+
   return (
     <div>
       <h1 className="text-xl font-bold mb-6">صفحه محصولات</h1>
