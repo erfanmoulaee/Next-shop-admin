@@ -3,6 +3,7 @@ import { getProducts } from "@/services/getProducts";
 import React from "react";
 import CategorySidebar from "./CategorySidebar";
 import queryString from "query-string";
+export const dynamic = "force-dynamic";
 
 async function Products({ searchParams }) {
   const { products } = await getProducts(queryString.stringify(searchParams));
