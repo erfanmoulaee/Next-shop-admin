@@ -1,9 +1,29 @@
+"use client";
 import CheckBox from "@/common/CheckBox";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 function CategorySidebar({ categories }) {
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const categoryHandler = () => {};
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [selectedCategories, setSelectedCategories] = useState(searchParams.get("category")?.split(",") || []);
+  // console.log(searchParams.getAll("category")?.split(",") || []);
+  const categoryHandler = (e) => {
+    const value = e.target.value;
+    if (selectedCategories.includes(value)) {
+      const categories = selectedCategories.filter((category) => category !== value);
+      setSelectedCategories(categories);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("category", categories);
+      router.push(pathname + "?" + params.toString());
+    } else {
+      setSelectedCategories([...selectedCategories, value]);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("category", [...selectedCategories, value]);
+      router.push(pathname + "?" + params.toString());
+    }
+  };
   return (
     <div className="col-span-1">
       <p className="font-bold mb-4">دسته بندی ها </p>
