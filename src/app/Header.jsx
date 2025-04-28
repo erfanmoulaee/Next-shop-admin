@@ -17,7 +17,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link className="block py-2" href="/product">
+            <Link className="block py-2" href="/products">
               محصولات
             </Link>
           </li>
