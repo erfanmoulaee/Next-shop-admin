@@ -4,6 +4,7 @@ import Loading from "@/common/Loading";
 import { useGetUser } from "@/hooks/useAuth";
 import { useAddToCart } from "@/hooks/useCart";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -29,9 +30,19 @@ function AddToCart({ product }) {
       }
     }
   };
+
+  const isInCart = (user, product) => {
+    if (!user) return false;
+    return user && user.cart?.products.some((p) => p.productId === product._id);
+  };
+
   return (
     <div>
-      {isLoading ? (
+      {isInCart(user, product) ? (
+        <Link href="/cart" className="badge--success px-4 py-2 rounded-xl">
+          ادامه سفارش{" "}
+        </Link>
+      ) : isLoading ? (
         <Loading />
       ) : (
         <button onClick={AddToCartHandler} className="btn btn--primary">
