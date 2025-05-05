@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/common/Loading";
 import { useGetUsers } from "@/hooks/useAuth";
+import UsersTable from "./UsersTable";
 
 function UsersPage() {
   const { isLoading, data } = useGetUsers();
@@ -10,6 +11,7 @@ function UsersPage() {
   return (
     <div>
       <h1>اطلاعات کاربران</h1>
+      <UsersTable users={users} />
     </div>
   );
 }
