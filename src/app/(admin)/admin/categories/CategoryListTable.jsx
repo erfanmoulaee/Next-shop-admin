@@ -4,18 +4,21 @@ import { RiEdit2Line } from "react-icons/ri";
 import { HiEye, HiTrash } from "react-icons/hi";
 import { useRemoveProduct } from "@/hooks/useProducts";
 import { toast } from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useRemoveCategory } from "@/hooks/useCategories";
 
 function CategoryListTable({ categories }) {
-  //   const removeProductHandler = async (id) => {
-  //     try {
-  //       const { message } = await mutateAsync(id);
-  //       toast.success(message);
-  //       queryClient.invalidateQueries({ queryKey: ["get-products"] });
-  //     } catch (error) {
-  //       toast.error(error?.respone?.data?.message);
-  //     }
-  //   };
+  const { mutateAsync } = useRemoveCategory();
+  const queryClient = useQueryClient();
+  const removeProductHandler = async (id) => {
+    try {
+      const { message } = await mutateAsync(id);
+      toast.success(message);
+      queryClient.invalidateQueries({ queryKey: ["get-categories"] });
+    } catch (error) {
+      toast.error(error?.respone?.data?.message);
+    }
+  };
   return (
     <div className="shadow-sm overflow-auto my-8">
       <table className="border-collapse table-auto w-full min-w-[800px] text-sm">
@@ -46,7 +49,7 @@ function CategoryListTable({ categories }) {
                     <Link href={`/admin/categories/${category._id}`}>
                       <HiEye className="text-primary-900 w-6 h-6" />
                     </Link>
-                    <button>
+                    <button onClick={() => removeProductHandler(category._id)}>
                       <HiTrash className="text-rose-600 w-6 h-6" />
                     </button>
                     <Link href={`/admin/categories/edit/${category._id}`}>

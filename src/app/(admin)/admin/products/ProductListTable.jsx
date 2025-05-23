@@ -4,18 +4,20 @@ import { RiEdit2Line } from "react-icons/ri";
 import { HiEye, HiTrash } from "react-icons/hi";
 import { useRemoveProduct } from "@/hooks/useProducts";
 import { toast } from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 function ProductListTable({ products }) {
-  //   const removeProductHandler = async (id) => {
-  //     try {
-  //       const { message } = await mutateAsync(id);
-  //       toast.success(message);
-  //       queryClient.invalidateQueries({ queryKey: ["get-products"] });
-  //     } catch (error) {
-  //       toast.error(error?.respone?.data?.message);
-  //     }
-  //   };
+  const { mutateAsync } = useRemoveProduct();
+  const queryClient = useQueryClient();
+  const removeProductHandler = async (id) => {
+    try {
+      const { message } = await mutateAsync(id);
+      toast.success(message);
+      queryClient.invalidateQueries({ queryKey: ["get-products"] });
+    } catch (error) {
+      toast.error(error?.respone?.data?.message);
+    }
+  };
   return (
     <div className="shadow-sm overflow-auto my-8">
       <table className="border-collapse table-auto w-full min-w-[800px] text-sm">
