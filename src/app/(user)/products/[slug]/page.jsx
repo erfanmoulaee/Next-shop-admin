@@ -1,11 +1,11 @@
 import { getOneProductBySlug, getProducts } from "@/services/getProducts";
 import AddToCart from "./AddToCart";
 
-export const dynamicParams = true;
-export const dynamic = "force-static";
+export const dynamic = "force-static"; // SSG or {cache : "force-cache"}
+export const dynamicParams = false;
 
 async function Page({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { product } = await getOneProductBySlug(slug);
   return (
     <div>
