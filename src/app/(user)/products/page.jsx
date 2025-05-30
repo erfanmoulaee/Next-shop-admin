@@ -12,13 +12,12 @@ import { toStringCookies } from "@/utils/toStringCookies";
 
 export const dynamic = "force-dynamic";
 
-async function Products(props) {
-  // const { products } = await getProducts(queryString.stringify(searchParams));
-  // const { categories } = await getCategories();
-  const { searchParams } = await props;
+async function Products({ params }) {
+  const { searchParams } = await params;
   const cookieStore = cookies();
   const strCookies = toStringCookies(cookieStore);
-  const productsPromise = getProducts(queryString.stringify(searchParams), strCookies);
+  const query = queryString.stringify(searchParams || {});
+  const productsPromise = getProducts(query, strCookies);
   const categoryPromise = getCategories();
   const [{ products }, { categories }] = await Promise.all([productsPromise, categoryPromise]);
 
